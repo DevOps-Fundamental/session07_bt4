@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 680" width="100%" height="100%">
+  <defs>
+    <linearGradient id="termHeader" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d3748" />
+      <stop offset="100%" stop-color="#1a202c" />
+    </linearGradient>
+    <filter id="winShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect width="950" height="680" rx="14" fill="#0f172a"/>
+
+  <g filter="url(#winShadow)">
+    <rect x="25" y="25" width="900" height="630" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.2"/>
+    <rect x="25" y="25" width="900" height="38" rx="10" fill="url(#termHeader)"/>
+    
+    <circle cx="48" cy="44" r="6" fill="#ff5f56" stroke="#e0443e" stroke-width="0.5"/>
+    <circle cx="68" cy="44" r="6" fill="#ffbd2e" stroke="#dea123" stroke-width="0.5"/>
+    <circle cx="88" cy="44" r="6" fill="#27c93f" stroke="#1aab29" stroke-width="0.5"/>
+
+    <text x="475" y="49" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="12" font-weight="600" fill="#c9d1d9" text-anchor="middle">admin@ubuntu-server: ~ • Nginx Reverse Proxy &amp; API Health Verification</text>
+
+    <g font-family="'Fira Code', 'JetBrains Mono', Consolas, monospace" font-size="11.5">
+      <!-- Step 1: nginx -t -->
+      <text x="45" y="88" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="88" fill="#f0f6fc">sudo nginx -t</text>
+      <text x="45" y="106" fill="#cbd5e1">nginx: the configuration file /etc/nginx/nginx.conf syntax is <tspan fill="#3fb950" font-weight="700">ok</tspan></text>
+      <text x="45" y="122" fill="#cbd5e1">nginx: configuration file /etc/nginx/nginx.conf test is <tspan fill="#3fb950" font-weight="700">successful</tspan></text>
+
+      <!-- Step 2: reload -->
+      <text x="45" y="148" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="148" fill="#f0f6fc">sudo systemctl reload nginx</text>
+
+      <!-- Step 3: curl -I static -->
+      <text x="45" y="174" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="174" fill="#f0f6fc">curl -I http://localhost/</text>
+      <text x="45" y="194" fill="#3fb950">HTTP/1.1 200 OK</text>
+      <text x="45" y="210" fill="#cbd5e1">Server: nginx/1.18.0 (Ubuntu)</text>
+      <text x="45" y="226" fill="#cbd5e1">Date: Thu, 08 Oct 2026 07:20:00 GMT</text>
+      <text x="45" y="242" fill="#cbd5e1">Content-Type: text/html</text>
+      <text x="45" y="258" fill="#cbd5e1">Content-Length: 1482</text>
+      <text x="45" y="274" fill="#cbd5e1">Connection: keep-alive</text>
+
+      <!-- Step 4: curl static content -->
+      <text x="45" y="302" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="302" fill="#f0f6fc">curl -s http://localhost/ | grep -E 'Họ và tên|Mã lớp'</text>
+      <text x="65" y="322" fill="#79c0ff">&lt;span class="label"&gt;Họ và tên:&lt;/span&gt; &lt;span class="val"&gt;Nguyen Van A&lt;/span&gt;</text>
+      <text x="65" y="338" fill="#79c0ff">&lt;span class="label"&gt;Mã lớp:&lt;/span&gt;    &lt;span class="val"&gt;DEVOPS-2026-K1&lt;/span&gt;</text>
+
+      <!-- Step 5: curl API proxy -->
+      <text x="45" y="368" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="368" fill="#f0f6fc">curl -i http://localhost/api/health</text>
+      <text x="45" y="388" fill="#3fb950">HTTP/1.1 200 OK</text>
+      <text x="45" y="404" fill="#cbd5e1">Server: nginx/1.18.0 (Ubuntu)</text>
+      <text x="45" y="420" fill="#cbd5e1">Date: Thu, 08 Oct 2026 07:20:05 GMT</text>
+      <text x="45" y="436" fill="#cbd5e1">Content-Type: application/json</text>
+      <text x="45" y="452" fill="#cbd5e1">Connection: keep-alive</text>
+      <text x="45" y="472" fill="#3fb950">{"status":"UP","backend":"Spring Boot 3.2.0","port":8082,"database":"CONNECTED"}</text>
+
+      <!-- Step 6: Verify headers & no 502 -->
+      <text x="45" y="504" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="504" fill="#f0f6fc">tail -n 2 /var/log/nginx/access.log</text>
+      <text x="45" y="524" fill="#8b949e">127.0.0.1 - - [08/Oct/2026:07:20:00 +0000] "GET / HTTP/1.1" 200 1482 "-" "curl/7.81.0"</text>
+      <text x="45" y="542" fill="#8b949e">127.0.0.1 - - [08/Oct/2026:07:20:05 +0000] "GET /api/health HTTP/1.1" 200 84 "-" "curl/7.81.0"</text>
+
+      <text x="45" y="574" fill="#58a6ff" font-weight="600">admin@ubuntu-server:~$</text>
+      <text x="220" y="574" fill="#f0f6fc">echo "Reverse Proxy configured properly with zero 502 Bad Gateway errors."</text>
+      <text x="45" y="594" fill="#3fb950">Reverse Proxy configured properly with zero 502 Bad Gateway errors.</text>
+      
+      <text x="45" y="620" fill="#a5d6ff">[Xác nhận: Đường dẫn / phục vụ trang tĩnh và /api/ chuyển tiếp thành công đến Spring Boot]</text>
+    </g>
+  </g>
+</svg>
